@@ -7,19 +7,85 @@ output:
 
 
 ## Loading and preprocessing the data
+Load necessary library files and data
+```{r}
+library(lattice)
+activityData <- read.csv("activity.csv", stringsAsFactors = FALSE)
+```
 
+Summary of raw data
+
+```{r}
+summary(activityData)
+```
 
 
 ## What is mean total number of steps taken per day?
+Load necessary library files and data
+```{r}
+library(lattice)
+activityData <- read.csv("activity.csv", stringsAsFactors = FALSE)
+```
 
+Summary of raw data
+
+```{r}
+summary(activityData)
+```
 
 
 ## What is the average daily activity pattern?
+calculate the average number of steps taken each interval by utiliaing lapply and split functions
+break list returned by lapply into a vector to plot a time series
 
+```{r}
+stepsByInterval <- lapply(split(activityData$steps, activityData$interval),mean, na.rm=TRUE)
+stepsByIntervalVector <- unlist(stepsByInterval)
+plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l")
+```
+
+determine which 5 min interval contains the highest number of steps
+```{r checkMax, echo=FALSE}
+maxSteps <- round(max(stepsByIntervalVector),2)
+maxInterval <- which.max(stepsByIntervalVector)
+```
+
+###The interval with the highest average steps is `r names(maxInterval)`
 
 
 ## Imputing missing values
+calculate the average number of steps taken each interval by utiliaing lapply and split functions
+break list returned by lapply into a vector to plot a time series
 
+```{r}
+stepsByInterval <- lapply(split(activityData$steps, activityData$interval),mean, na.rm=TRUE)
+stepsByIntervalVector <- unlist(stepsByInterval)
+plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l")
+```
 
+determine which 5 min interval contains the highest number of steps
+```{r checkMax, echo=FALSE}
+maxSteps <- round(max(stepsByIntervalVector),2)
+maxInterval <- which.max(stepsByIntervalVector)
+```
+
+###The interval with the highest average steps is `r names(maxInterval)`
 
 ## Are there differences in activity patterns between weekdays and weekends?
+```{r}
+#create POSIXt variable 
+cleanDataSet$dtfmt <- strptime(cleanDataSet$date,"%Y-%m-%d")
+#create day-of-week factor variable
+cleanDataSet$dow <- factor(c("weekend"), levels = c("weekday", "weekend"))
+
+#populate day of week 
+for(x in 1:nrow(cleanDataSet)){
+        if (weekdays(cleanDataSet[x,4], abbreviate = TRUE) == "Sat" || weekdays(cleanDataSet[x,4],abbreviate = TRUE) == "Sun")
+                cleanDataSet[x,5] <- "weekend"
+         else
+                cleanDataSet[x,5] <- "weekday"
+}
+
+#plot timeseries weekend vs. weekday
+xyplot(cleanDataSet$steps ~ cleanDataSet$interval | cleanDataSet$dow, layout = c( 1, 2), type = c("l", "l"))
+```
