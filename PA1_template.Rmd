@@ -38,8 +38,8 @@ rug(totalStepsByDateVector)
 Calculate and report the mean and median of the total number of steps taken per day
 
 ```{r}
-stepsMean <- round(mean(totalStepsByDateVector, na.rm=TRUE),2)
-stepsMedian <- round(median(totalStepsByDateVector, na.rm = TRUE),2)
+stepsMean <- prettyNum(round(mean(totalStepsByDateVector, na.rm=TRUE),2))
+stepsMedian <- prettyNum(round(median(totalStepsByDateVector, na.rm = TRUE),2))
 ```
 
 The mean number of steps per day = `r stepsMean` and the mediam = `r stepsMedian`
@@ -58,7 +58,7 @@ plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l")
 
 determine which 5 min interval contains the highest number of steps
 ```{r checkMax, echo=FALSE}
-maxSteps <- round(max(stepsByIntervalVector),2)
+maxSteps <- prettyNum(round(max(stepsByIntervalVector),2))
 maxInterval <- which.max(stepsByIntervalVector)
 ```
 
@@ -66,7 +66,7 @@ maxInterval <- which.max(stepsByIntervalVector)
 
 
 ###Inputting missing values
-
+The strategy used to populate missing data was to utilize the average steps for the missings data interval across all the days  ( see commented code below)
 
 ```{r}
 #copy activityData to cleanDataSet
@@ -84,7 +84,7 @@ totNAs <- nrow(vectorOfNAs)
 ```
 
 
-###The total number of NAs is `r totNAs`
+####The total number of NAs is `r totNAs`
 
 
 Show summaries of before and after datasets to see change
@@ -118,22 +118,22 @@ break list returned by lapply into a vector to plot a time series
 ```{r}
 stepsByInterval <- lapply(split(cleanDataSet$steps, cleanDataSet$interval),mean, na.rm=TRUE)
 stepsByIntervalVector <- unlist(stepsByInterval)
-plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l")
+#plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l")
 ```
 
 ```{r checkMax2, echo=FALSE}
-maxSteps <- round(max(stepsByIntervalVector),2)
+
 maxInterval <- which.max(stepsByIntervalVector)
 ```
 
 ```{r}
-stepsMean <- round(mean(totalStepsByDateVector),2)
-stepsMedian <- round(median(totalStepsByDateVector),2)
+stepsMean <- prettyNum(round(mean(totalStepsByDateVector),2))
+stepsMedian <- prettyNum(round(median(totalStepsByDateVector),2))
 ```
 
-The mean number of steps per day = `r stepsMean` and the mediam = `r stepsMedian`
+####The mean number of steps per day = `r stepsMean` and the mediam = `r stepsMedian`
 
-###The interval with the highest average steps (`r maxSteps`) is `r names(maxInterval)`
+####The interval with the highest average steps is `r names(maxInterval)`
 
 ###I  don't see any difference when filling in NAs mostly due to using exising averages as replacement values
 
@@ -159,3 +159,4 @@ for(x in 1:nrow(cleanDataSet)){
 xyplot(cleanDataSet$steps ~ cleanDataSet$interval | cleanDataSet$dow, layout = c( 1, 2), type = c("l", "l"))
 ```
 
+####On Weekdays the intervals earlier in the day have higher steps count when compared to the weekend.  THis woud be expected due to work schedules

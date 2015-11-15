@@ -51,11 +51,11 @@ Calculate and report the mean and median of the total number of steps taken per 
 
 
 ```r
-stepsMean <- round(mean(totalStepsByDateVector, na.rm=TRUE),2)
-stepsMedian <- round(median(totalStepsByDateVector, na.rm = TRUE),2)
+stepsMean <- prettyNum(round(mean(totalStepsByDateVector, na.rm=TRUE),2))
+stepsMedian <- prettyNum(round(median(totalStepsByDateVector, na.rm = TRUE),2))
 ```
 
-The mean number of steps per day = 1.076619\times 10^{4} and the mediam = 1.0765\times 10^{4}
+The mean number of steps per day = 10766.19 and the mediam = 10765
 
 
 ###What is the average daily activity pattern?
@@ -79,7 +79,7 @@ determine which 5 min interval contains the highest number of steps
 
 
 ###Inputting missing values
-
+The strategy used to populate missing data was to utilize the average steps for the missings data interval across all the days  ( see commented code below)
 
 
 ```r
@@ -98,7 +98,7 @@ totNAs <- nrow(vectorOfNAs)
 ```
 
 
-###The total number of NAs is 2304
+####The total number of NAs is 2304
 
 
 Show summaries of before and after datasets to see change
@@ -161,22 +161,20 @@ break list returned by lapply into a vector to plot a time series
 ```r
 stepsByInterval <- lapply(split(cleanDataSet$steps, cleanDataSet$interval),mean, na.rm=TRUE)
 stepsByIntervalVector <- unlist(stepsByInterval)
-plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l")
+#plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l")
 ```
-
-![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
 
 
 
 
 ```r
-stepsMean <- round(mean(totalStepsByDateVector),2)
-stepsMedian <- round(median(totalStepsByDateVector),2)
+stepsMean <- prettyNum(round(mean(totalStepsByDateVector),2))
+stepsMedian <- prettyNum(round(median(totalStepsByDateVector),2))
 ```
 
-The mean number of steps per day = 1.076619\times 10^{4} and the mediam = 1.076619\times 10^{4}
+####The mean number of steps per day = 10766.19 and the mediam = 10766.19
 
-###The interval with the highest average steps (206.17) is 835
+####The interval with the highest average steps is 835
 
 ###I  don't see any difference when filling in NAs mostly due to using exising averages as replacement values
 
@@ -205,3 +203,4 @@ xyplot(cleanDataSet$steps ~ cleanDataSet$interval | cleanDataSet$dow, layout = c
 
 ![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
 
+####On Weekdays the intervals earlier in the day have higher steps count when compared to the weekend.  THis woud be expected due to work schedules
