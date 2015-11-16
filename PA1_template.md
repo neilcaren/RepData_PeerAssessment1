@@ -41,7 +41,7 @@ Plot a histogram of Steps to get a sense of frequency and distribution.  Also ad
 
 
 ```r
-hist(totalStepsByDateVector)
+hist(totalStepsByDateVector, xlab = "Total Steps by Date")
 rug(totalStepsByDateVector)
 ```
 
@@ -67,7 +67,7 @@ break list returned by lapply into a vector to plot a time series
 ```r
 stepsByInterval <- lapply(split(activityData$steps, activityData$interval),mean, na.rm=TRUE)
 stepsByIntervalVector <- unlist(stepsByInterval)
-plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l")
+plot(names(stepsByIntervalVector), stepsByIntervalVector, type="l", xlab = "Interval", ylab = "Steps")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
@@ -147,7 +147,7 @@ Plot a histogram of Steps to get a sense of frequency.  Also added a rug for fur
 
 
 ```r
-hist(totalStepsByDateVector)
+hist(totalStepsByDateVector, xlab = "Total Steps by Date")
 rug(totalStepsByDateVector)
 ```
 
@@ -198,7 +198,7 @@ for(x in 1:nrow(cleanDataSet)){
 }
 
 #plot timeseries weekend vs. weekday
-xyplot(cleanDataSet$steps ~ cleanDataSet$interval | cleanDataSet$dow, layout = c( 1, 2), type = c("l", "l"))
+xyplot(cleanDataSet$steps ~ cleanDataSet$interval | cleanDataSet$dow, layout = c( 1, 2), type = c("l", "l"), xlab = "Interval", ylab = "Steps")
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
